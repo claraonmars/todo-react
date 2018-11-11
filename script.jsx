@@ -3,6 +3,7 @@ class List extends React.Component {
     super()
     this.changeHandler = this.changeHandler.bind( this );
     this.addItem = this.addItem.bind( this );
+    this.removeItem = this.removeItem.bind( this );
 
   }
 
@@ -37,6 +38,12 @@ class List extends React.Component {
     this.setState({list: listarr, word: ''});
   }
 
+  removeItem(){
+    let listarr = [...this.state.list];
+    listarr.splice(event.target.id, 1);
+    this.setState({list:listarr});
+  }
+
   render() {
       // render the list with a map() here
 
@@ -45,7 +52,9 @@ class List extends React.Component {
         <div className="list">
         <ul>
             {this.state.list.map((item, i) => (
-            <li key={i}>{item}</li>
+            <li key={i}>{item}<br/>
+            <button id={i} onClick={this.removeItem}>Delete</button>
+            </li>
           ))}
         </ul>
             <p>{this.state.error}</p>
