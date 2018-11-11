@@ -2,6 +2,8 @@ class List extends React.Component {
   constructor(){
     super()
     this.changeHandler = this.changeHandler.bind( this );
+    this.addItem = this.addItem.bind( this );
+
   }
 
   state = {
@@ -14,14 +16,26 @@ class List extends React.Component {
     console.log("change", event.target.value);
   }
 
+  addItem(){
+    let listarr = [...this.state.list];
+    listarr.push(this.state.word);
+    // push todoitem and clear out input value
+    this.setState({list: listarr, word: ''});
+  }
+
   render() {
       // render the list with a map() here
 
       console.log("rendering");
       return (
         <div className="list">
+        <ul>
+            {this.state.list.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+        </ul>
           <input onChange={this.changeHandler} value={this.state.word}/>
-          <button>add item</button>
+          <button onClick={this.addItem}>add item</button>
         </div>
       );
   }
