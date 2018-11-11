@@ -1,9 +1,22 @@
+class Edit extends React.Component{
+    render(){
+        return(
+            <div>
+            <input onChange={this.props.edit} value={this.props.item} id={this.props.id}/>
+            <button onClick={this.props.delete} id={this.props.id}>Delete</button>
+            </div>
+        )
+    }
+
+}
+
 class List extends React.Component {
   constructor(){
     super()
     this.changeHandler = this.changeHandler.bind( this );
     this.addItem = this.addItem.bind( this );
     this.removeItem = this.removeItem.bind( this );
+    this.editItem = this.editItem.bind( this );
 
   }
 
@@ -44,6 +57,15 @@ class List extends React.Component {
     this.setState({list:listarr});
   }
 
+  editItem(){
+    let listarr = [...this.state.list];
+    let input = event.target.value;
+
+    listarr[event.target.id] = input;
+    this.setState({list:listarr});
+
+  }
+
   render() {
       // render the list with a map() here
 
@@ -52,9 +74,7 @@ class List extends React.Component {
         <div className="list">
         <ul>
             {this.state.list.map((item, i) => (
-            <li key={i}>{item}<br/>
-            <button id={i} onClick={this.removeItem}>Delete</button>
-            </li>
+            <Edit key={i} id={i} edit={this.editItem} delete={this.removeItem} item={item}/>
           ))}
         </ul>
             <p>{this.state.error}</p>
