@@ -4,6 +4,7 @@ class Edit extends React.Component{
             <div>
             <input onChange={this.props.edit} value={this.props.item} id={this.props.id}/>
             <button onClick={this.props.delete} id={this.props.id}>Delete</button>
+            <button onClick={this.props.done} id={this.props.id}>Task Complete</button>
             </div>
         )
     }
@@ -17,6 +18,7 @@ class List extends React.Component {
     this.addItem = this.addItem.bind( this );
     this.removeItem = this.removeItem.bind( this );
     this.editItem = this.editItem.bind( this );
+    this.doneItem = this.doneItem.bind( this );
 
   }
 
@@ -24,7 +26,8 @@ class List extends React.Component {
     list : [],
     word : "",
     class: 'normal',
-    error: ''
+    error: '',
+    done : []
   }
 
   changeHandler(event){
@@ -63,7 +66,15 @@ class List extends React.Component {
 
     listarr[event.target.id] = input;
     this.setState({list:listarr});
+  }
 
+  doneItem(){
+    let donearr = [...this.state.done];
+    let listarr = [...this.state.list];
+    donearr.push(listarr[event.target.id]);
+    listarr.splice(event.target.id, 1);
+
+    this.setState({list:listarr, done: donearr});
   }
 
   render() {
@@ -74,7 +85,15 @@ class List extends React.Component {
         <div className="list">
         <ul>
             {this.state.list.map((item, i) => (
-            <Edit key={i} id={i} edit={this.editItem} delete={this.removeItem} item={item}/>
+            <Edit key={i} id={i} edit={this.editItem} delete={this.removeItem} item={item} done={this.doneItem}/>
+          ))}
+        </ul>
+        <p>Done</p>
+        <ul>
+            {this.state.done.map((done, i) => (
+            <li key={i}>
+            {done}
+            </li>
           ))}
         </ul>
             <p>{this.state.error}</p>
