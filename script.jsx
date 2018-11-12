@@ -2,10 +2,11 @@ class Edit extends React.Component{
     render(){
         return(
             <li>
-            <input onChange={this.props.edit} value={this.props.item} id={this.props.id}/>
+            {this.props.item}<br/>
+            <button onClick={this.props.edit} value={this.props.item} id={this.props.id}>Edit</button>
             <button onClick={this.props.delete} id={this.props.id}>Delete</button>
             <button onClick={this.props.done} id={this.props.id}>Task Complete</button>
-            <p>{moment().format('LLL')}</p>
+            <p>Created at {moment().format('LLL')}</p>
             </li>
         )
     }
@@ -39,7 +40,7 @@ class List extends React.Component {
     if( event.target.value.length > 20){
         let warning = this.state.currentClass
         warning = 'warning'
-        this.setState({class: warning, error: 'Error: Input too long'})
+        this.setState({class: warning, error: 'Error: Input too long'});
     }
     else{
         this.setState({class:'normal'})
@@ -62,8 +63,9 @@ class List extends React.Component {
   }
 
   editItem(){
+    let input = prompt('edit '+ event.target.value, event.target.value);
+
     let listarr = [...this.state.list];
-    let input = event.target.value;
 
     listarr[event.target.id] = input;
     this.setState({list:listarr});
@@ -84,12 +86,14 @@ class List extends React.Component {
       console.log("rendering");
       return (
         <div className="list">
+        <h3>To do list</h3>
         <ul>
             {this.state.list.map((item, i) => (
             <Edit key={i} id={i} edit={this.editItem} delete={this.removeItem} item={item} done={this.doneItem}/>
           ))}
         </ul>
-        <p>Done</p>
+        <hr/>
+        <h3>Done</h3>
         <ul>
             {this.state.done.map((done, i) => (
             <li key={i}>
@@ -97,7 +101,9 @@ class List extends React.Component {
             </li>
           ))}
         </ul>
-            <p>{this.state.error}</p>
+        <hr/>
+        <h3>Add more items</h3>
+         <p>{this.state.error}</p>
           <input className={this.state.class} onChange={this.changeHandler} value={this.state.word}/>
           <button onClick={this.addItem}>add item</button>
         </div>
