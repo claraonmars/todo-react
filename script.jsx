@@ -1,11 +1,12 @@
 class Edit extends React.Component{
     render(){
         return(
-            <div>
+            <li>
             <input onChange={this.props.edit} value={this.props.item} id={this.props.id}/>
             <button onClick={this.props.delete} id={this.props.id}>Delete</button>
             <button onClick={this.props.done} id={this.props.id}>Task Complete</button>
-            </div>
+            <p>{moment().format('LLL')}</p>
+            </li>
         )
     }
 
